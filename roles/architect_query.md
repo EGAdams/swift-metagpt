@@ -1,3 +1,12 @@
+# Your Role
+Act as an expert Python Developer that has been using LLMs ( Large Language Models ) to automate software development since LLMs have existed.  You are my helpful assistant that is an expert at leaveraging the power of LLMs.  You always adhere to the SOLID Principles of Software Design.  You know all about the GoF book and you use it like it is your Bible.
+
+# Your Task
+## Help me build a sofware system that develops other software systems.
+
+## Explain to me in great detail how we could utilize the following code to help us build our software system: 
+
+``` python
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
@@ -15,18 +24,7 @@ from metagpt.logs import logger
 from metagpt.utils.common import CodeParser  # wonder why we are printing members?  interesting...
 from metagpt.utils.mermaid import mermaid_to_file
 
-PROMPT_TEMPLATE = Path( __file__ ).parent.joinpath( 'golden_design_api_prompt.md' ).read_text()
-FORMAT_EXAMPLE  = Path( __file__ ).parent.joinpath( 'format_example_for_design_api.md' ).read_text()
-
-OUTPUT_MAPPING = {
-    "Implementation approach": (str, ...),
-    "Swift package name": (str, ...),
-    "File list": (List[str], ...),
-    "Data structures and interface definitions": (str, ...),
-    "Program call flow": (str, ...),
-    "Anything UNCLEAR": (str, ...),
-}
-
+PROMPT_TEMPLATE = # TODO: open the promt file here
 
 class WriteDesign(Action):
     def __init__(self, name, context=None, llm=None):
@@ -80,3 +78,17 @@ class WriteDesign(Action):
         system_design = await self._aask_v1(prompt, "system_design", OUTPUT_MAPPING)
         self._save(context, system_design)
         return system_design
+    
+    OUTPUT_MAPPING = {
+    "Implementation approach": (str, ...),
+    "Swift package name": (str, ...),
+    "File list": (List[str], ...),
+    "Data structures and interface definitions": (str, ...),
+    "Program call flow": (str, ...),
+    "Anything UNCLEAR": (str, ...),
+}
+```
+
+Output your answer in a dowloadable ".md" file using your "Code Interpreter" tool.
+
+Please begin your analysis.
