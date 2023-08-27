@@ -22,7 +22,7 @@ from metagpt.utils.special_tokens import MSG_SEP, FILENAME_CODE_SEP
 class QaEngineer(Role):
     def __init__(self, name="Edward", profile="QaEngineer",
                  goal="Write comprehensive and robust tests to ensure codes will work as expected without bugs",
-                 constraints="The test code you write should conform to the Swift API Design Guidelines, be modular, easy to read and easy to maintain",
+                 constraints="The test code you write should conform to the Swift API Design Guidelines, adhere to the SOLID principles of software design, be modular, easy to read, and easy to maintain",
                  test_round_allowed=5):
         super().__init__(name, profile, goal, constraints)
         self._init_actions([WriteTest]) # FIXME: a bit hack here, only init one action to circumvent _think() logic, will overwrite _think() in future updates
@@ -142,8 +142,7 @@ class QaEngineer(Role):
         if self.test_round > self.test_round_allowed:
             result_msg = Message(
                 content=f"Exceeding {self.test_round_allowed} rounds of tests, skip (writing code counts as a round, too)",
-                role=self.profile, cause_by=WriteTest, sent_from=self.profile, send_to=""
-            )
+                role=self.profile, cause_by=WriteTest, sent_from=self.profile, send_to="" )
             return result_msg
 
         for msg in self._rc.news:

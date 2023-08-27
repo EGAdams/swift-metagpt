@@ -57,7 +57,7 @@ class WriteCode(Action):
 
         design = [i for i in context if i.cause_by == WriteDesign][0]
 
-        ws_name = CodeParser.parse_str(block="Python package name", text=design.content)
+        ws_name = CodeParser.parse_str(block="Swift package name", text=design.content)
         ws_path = WORKSPACE_ROOT / ws_name
         if f"{ws_name}/" not in filename and all(i not in filename for i in ["requirements.txt", ".md"]):
             ws_path = ws_path / ws_name
