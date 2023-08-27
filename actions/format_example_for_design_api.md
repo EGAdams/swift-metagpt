@@ -1,6 +1,7 @@
 
 ## Implementation approach
-We will ...
+- We are going to use the following sutable open source tools ...
+- The challenges posed by the requirements are ...
 
 ## Swift package name
 ```python
@@ -17,17 +18,20 @@ We will ...
 ## Data structures and interface definitions
 ```mermaid
 classDiagram
-    class Game{
-        +int score
+    class Speedometer{
+        +int speed
     }
     
-    Game "1" -- "1" Food: has
+    TestReport "1" -- "1" ListOfTests: has
 ```
 
 ## Program call flow
 ```mermaid
 sequenceDiagram
     participant M as Main
-    G->>M: start game
-    G->>M: end game
+    G->>M: start airport gauge test
+    M->>G: initailize menus
+    M->>G: run test
+    M->>G: write test report
+    G->>M: end test
 ```

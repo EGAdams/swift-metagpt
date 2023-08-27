@@ -19,21 +19,17 @@ PROMPT_TEMPLATE = Path( __file__ ).parent.joinpath( 'golden_design_api_prompt.md
 FORMAT_EXAMPLE  = Path( __file__ ).parent.joinpath( 'format_example_for_design_api.md' ).read_text()
 
 OUTPUT_MAPPING = {
-    "Implementation approach": (str, ...),
-    "Swift package name": (str, ...),
-    "File list": (List[str], ...),
-    "Data structures and interface definitions": (str, ...),
-    "Program call flow": (str, ...),
-    "Anything UNCLEAR": (str, ...),
-}
-
+    "Implementation approach": ( str, ... ),
+    "Swift package name": ( str, ... ),
+    "File list": ( List[str], ... ),
+    "Data structures and interface definitions": ( str, ... ),
+    "Program call flow": ( str, ... ),
+    "Anything UNCLEAR": ( str, ... )}
 
 class WriteDesign(Action):
     def __init__(self, name, context=None, llm=None):
         super().__init__(name, context, llm)
-        self.desc = "Based on the PRD, think about the system design, and design the corresponding APIs, " \
-                    "data structures, library tables, processes, and paths. Please provide your design, feedback " \
-                    "clearly and in detail."
+        self.desc = "Based on the PRD, think about the system design, and design the corresponding APIs, data structures, library tables, processes, and paths. Please provide your design, feedback clearly and in detail."
 
     def recreate_workspace(self, workspace: Path):
         try:
