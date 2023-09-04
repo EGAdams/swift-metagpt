@@ -47,9 +47,8 @@ async def gather_ordered_k(coros, k) -> list:
 
 
 class Engineer(Role):
-    def __init__(self, name="Alex", profile="Engineer", goal="Write elegant, readable, extensible, efficient code",
-                 constraints="The code you write should conform to the Swift API Design Guidelines,be modular, easy to read and maintain",
-                 n_borg=1, use_code_review=False):
+    def __init__(self, name="Alex", profile="Engineer", goal="Write elegant, readable, testable, extensible, efficient code", constraints="The code you write should conform to the Swift API Design Guidelines, adhere to the SOLID principles of software design, be modular, easy to read, easy to test, and easy to maintain",
+    n_borg=1, use_code_review=False):
         super().__init__(name, profile, goal, constraints)
         self._init_actions([WriteCode])
         self.use_code_review = use_code_review
@@ -72,8 +71,8 @@ class Engineer(Role):
     @classmethod
     def parse_workspace(cls, system_design_msg: Message) -> str:
         if system_design_msg.instruct_content:
-            return system_design_msg.instruct_content.dict().get("Python package name").strip().strip("'").strip("\"")
-        return CodeParser.parse_str(block="Python package name", text=system_design_msg.content)
+            return system_design_msg.instruct_content.dict().get("Swift package name").strip().strip("'").strip("\"")
+        return CodeParser.parse_str(block="Swift package name", text=system_design_msg.content)
 
     def get_workspace(self) -> Path:
         msg = self._rc.memory.get_by_action(WriteDesign)[-1]
@@ -158,11 +157,15 @@ class Engineer(Role):
         code_msg_all = [] # gather all code info, will pass to qa_engineer for tests later
         for todo in self.todos:
             """
-            # 从历史信息中挑选必须的信息，以减少prompt长度（人工经验总结）
-            1. Architect全部
-            2. ProjectManager全部
-            3. 是否需要其他代码（暂时需要）？
-            TODO:目标是不需要。在任务拆分清楚后，根据设计思路，不需要其他代码也能够写清楚单个文件，如果不能则表示还需要在定义的更清晰，这个是代码能够写长的关键
+            # Extract essential information from historical data to reduce the length of the prompt (based on professional experience):
+            1. Include all details from 'Architect'.
+            2. Include all details from 'ProjectManager'.
+            3. Is there a need for additional code (currently required)?
+            TODO: 
+            The objective is to make each file self-contained. 
+            After breaking down tasks and following the design strategy, each file should be complete without depending on external code. 
+            If this isn't achievable, then the design might need more clarity. 
+            Ensuring this clarity is essential for writing comprehensive code.
             """
             context = []
             msg = self._rc.memory.get_by_actions([WriteDesign, WriteTasks, WriteCode])
