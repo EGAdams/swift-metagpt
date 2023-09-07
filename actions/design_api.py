@@ -35,7 +35,7 @@ class WriteDesign(Action):
         try:
             shutil.rmtree(workspace)
         except FileNotFoundError:
-            pass  # 文件夹不存在，但我们不在意
+            pass  # Folder does not exist, but we don't care
         workspace.mkdir(parents=True, exist_ok=True)
 
     def _save_prd(self, docs_path, resources_path, prd):
@@ -76,3 +76,4 @@ class WriteDesign(Action):
         system_design = await self._aask_v1(prompt, "system_design", OUTPUT_MAPPING)
         self._save(context, system_design)
         return system_design
+    
