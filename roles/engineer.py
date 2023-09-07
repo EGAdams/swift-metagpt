@@ -87,7 +87,7 @@ class Engineer(Role):
         try:
             shutil.rmtree(workspace)
         except FileNotFoundError:
-            pass  # 文件夹不存在，但我们不在意
+            pass  # The folder does not exist, but we don't care
         workspace.mkdir(parents=True, exist_ok=True)
 
     def write_file(self, filename: str, code: str):
@@ -157,27 +157,23 @@ class Engineer(Role):
         code_msg_all = [] # gather all code info, will pass to qa_engineer for tests later
         for todo in self.todos:
             """
-            # Extract essential information from historical data to reduce the length of the prompt (based on professional experience):
-            1. Include all details from 'Architect'.
-            2. Include all details from 'ProjectManager'.
-            3. Is there a need for additional code (currently required)?
-            TODO: 
-            The objective is to make each file self-contained. 
-            After breaking down tasks and following the design strategy, each file should be complete without depending on external code. 
-            If this isn't achievable, then the design might need more clarity. 
-            Ensuring this clarity is essential for writing comprehensive code.
+            # Select essential information from the historical data to reduce the length of the prompt (summarized from human experience):
+            1. All from Architect
+            2. All from ProjectManager
+            3. Do we need other codes (currently needed)?
+            TODO: The goal is not to need it. After clear task decomposition, based on the design idea, you should be able to write a single file without needing other codes. If you can't, it means you need a clearer definition. This is the key to writing longer code.
             """
             context = []
             msg = self._rc.memory.get_by_actions([WriteDesign, WriteTasks, WriteCode])
             for m in msg:
                 context.append(m.content)
             context_str = "\n".join(context)
-            # 编写code
+            # Write code
             code = await WriteCode().run(
                 context=context_str,
                 filename=todo
             )
-            # code review
+            # Code review
             if self.use_code_review:
                 try:
                     rewrite_code = await WriteCodeReview().run(
@@ -206,6 +202,7 @@ class Engineer(Role):
         return msg
 
     async def _act(self) -> Message:
+        """Determines the mode of action based on whether code review is used."""
         if self.use_code_review:
             return await self._act_sp_precision()
         return await self._act_sp()
